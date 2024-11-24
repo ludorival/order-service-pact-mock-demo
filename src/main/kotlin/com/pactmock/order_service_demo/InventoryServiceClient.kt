@@ -14,7 +14,7 @@ class InventoryServiceClient(
             "$serviceUrl/inventory/product/$productId",
             StockResponse::class.java
         )
-        return response.body ?: throw RuntimeException("Erreur: réponse vide")
+        return response.body ?: throw RuntimeException("Error: empty response")
     }
 }
 data class StockResponse(val productId: Long, val quantity: Int)
