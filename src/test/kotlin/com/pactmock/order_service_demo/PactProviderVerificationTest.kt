@@ -40,14 +40,6 @@ class PactProviderVerificationTest {
     @BeforeEach
     fun setUp(context: PactVerificationContext) {
         context.target = HttpTestTarget.fromUrl(URI.create("http://localhost:$port").toURL())
-
-        // Set up the mock response for RestTemplate
-        every {
-            restTemplate.getForEntity(
-                match<String> { it.endsWith("/inventory/product/1") },
-                StockResponse::class.java
-            )
-        } returns ResponseEntity.ok(StockResponse(1L, 10))
     }
 
     @TestTemplate
