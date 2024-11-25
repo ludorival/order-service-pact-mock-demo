@@ -42,7 +42,7 @@ import org.springframework.web.client.RestTemplate
             )
         } throws RuntimeException(message)
     }
-Œ
+
     fun RestTemplate.givenItemReleaseSucceeds(itemId: Long, quantity: Int) {
         every {
             postForEntity(
