@@ -5,7 +5,7 @@ import io.mockk.every
 import org.springframework.http.ResponseEntity
 import org.springframework.web.client.RestTemplate
 
-    const val SERVICE_URL = "http://localhost:8081"
+    const val SERVICE_URL = "http://localhost:4000/v1"
 
     fun RestTemplate.givenItemsAreAvailable(items: List<Item>) {
         every {
