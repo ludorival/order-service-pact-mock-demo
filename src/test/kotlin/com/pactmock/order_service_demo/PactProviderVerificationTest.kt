@@ -5,6 +5,8 @@ import au.com.dius.pact.provider.junit5.HttpTestTarget
 import au.com.dius.pact.provider.junit5.PactVerificationContext
 import au.com.dius.pact.provider.junitsupport.Provider
 import au.com.dius.pact.provider.junitsupport.State
+import au.com.dius.pact.provider.junitsupport.loader.PactBroker
+import au.com.dius.pact.provider.junitsupport.loader.PactBrokerAuth
 import au.com.dius.pact.provider.junitsupport.loader.PactFolder
 
 import au.com.dius.pact.provider.spring.junit5.PactVerificationSpringProvider
@@ -23,11 +25,10 @@ import java.net.URI
 @ExtendWith(SpringExtension::class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Provider("order-service")
-/*@PactBroker(
+@PactBroker(
     url = "\${pactbroker.url}",
     authentication = PactBrokerAuth(token = "\${pactbroker.token}")
-)*/
-@PactFolder("pacts")  // Replace @PactBroker with this
+)
 @Import(TestConfig::class)
 class PactProviderVerificationTest {
 
