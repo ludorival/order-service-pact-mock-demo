@@ -1,5 +1,6 @@
 package com.pactmock.order_service_demo
 
+import com.pactmock.order_service_demo.models.Item
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
@@ -13,28 +14,99 @@ class OrderControllerTest {
     private val restTemplate = mockk<RestTemplate>()
     private val serviceUrl = "http://localhost:8081"
     private val inventoryServiceClient = InventoryServiceClient(restTemplate, serviceUrl)
-    private val orderController = OrderController(inventoryServiceClient)
+
+
+    private val paymentService = mockk<PaymentService>()
+    private val orderController = OrderController(inventoryServiceClient, paymentService)
+
 
     @Test
-    fun `checkStock should return product stock information`() {
-        // Arrange
-        val productId = 1L
-        val expectedQuantity = 10
-        val stockResponse = StockResponse(productId, expectedQuantity)
+    fun `getItems returns list of items successfully`() {
+        val mockItems = listOf(
+            Item(1L, "Item 1", "Description", 10),
+            Item(2L, "Item 2", "Description",20)
+        )
+
+        every {
+            restTemplate.getForEntity("$serviceUrl/items", Array<Item>::class.java)
+        } returns ResponseEntity.ok(mockItems.toTypedArray())
+
+        val response = orderController.getItems()
+
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals(mockItems, response.body)
+    }
+
+    @Test
+    fun `purchaseItem completes successfully when booking and payment succeed`() {
+        val request = PurchaseRequest(1L, 2, 20.0)
+
+        every {
+            inventoryServiceClient.bookItem(1L, 2)
+        } returns BookingResponse(true, "Booked successfully")
+
+        every {
+            paymentService.processPayment(1L, 2, 20.0)
+        } returns PaymentResult(true, "Payment processed")
+
+        val response = orderController.purchaseItem(request)
+
+        assertEquals(HttpStatus.OK, response.statusCode)
+        assertEquals(true, response.body?.success)
+        assertEquals("Purchase completed successfully", response.body?.message)
+    }
+
+    @Test
+    fun `purchaseItem fails when booking fails`() {
+        val request = PurchaseRequest(1L, 2, 20.0)
         
         every { 
-            restTemplate.getForEntity(
-                "http://localhost:8081/inventory/product/$productId",
-                StockResponse::class.java
-            )
-        } returns ResponseEntity.ok(stockResponse)
+            inventoryServiceClient.bookItem(1L, 2)
+        } returns BookingResponse(false, "Out of stock")
 
-        // Act
-        val result = orderController.checkStock(productId)
+        val response = orderController.purchaseItem(request)
 
-        // Assert
-        assertEquals(HttpStatus.OK, result.statusCode)
-        assertEquals(productId, result.body?.get("productId"))
-        assertEquals(expectedQuantity, result.body?.get("stockAvailable"))
+        assertEquals(HttpStatus.BAD_REQUEST, response.statusCode)
+        assertEquals(false, response.body?.success)
+        assertEquals("Out of stock", response.body?.message)
     }
+
+    @Test
+    fun `purchaseItem fails and releases inventory when payment fails`() {
+        val request = PurchaseRequest(1L, 2, 20.0)
+
+        every {
+            inventoryServiceClient.bookItem(1L, 2)
+        } returns BookingResponse(true, "Booked successfully")
+
+        every {
+            paymentService.processPayment(1L, 2, 20.0)
+        } returns PaymentResult(false, "Insufficient funds")
+
+        every {
+            inventoryServiceClient.releaseItem(1L, 2)
+        } returns ReleaseResponse(true, "Released successfully")
+
+        val response = orderController.purchaseItem(request)
+
+        assertEquals(HttpStatus.BAD_REQUEST, response.statusCode)
+        assertEquals(false, response.body?.success)
+        assertEquals("Payment failed: Insufficient funds", response.body?.message)
+    }
+
+    @Test
+    fun `purchaseItem handles exceptions gracefully`() {
+        val request = PurchaseRequest(1L, 2, 20.0)
+
+        every {
+            inventoryServiceClient.bookItem(1L, 2)
+        } throws RuntimeException("Service unavailable")
+
+        val response = orderController.purchaseItem(request)
+
+        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.statusCode)
+        assertEquals(false, response.body?.success)
+        assertEquals("Error processing purchase: Service unavailable", response.body?.message)
+    }
+
 } 
