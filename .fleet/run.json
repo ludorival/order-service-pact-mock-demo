@@ -1,0 +1,19 @@
+{
+    "configurations": [
+        
+        {
+            "name": "Build",
+            "type": "jps-build",
+            "workingDir": "$PROJECT_DIR$",
+            "module": "order-service-demo"
+        },
+        {
+            "name": "PactProviderVerificationTest (1)",
+            "type": "jps-test",
+            "workingDir": "$PROJECT_DIR$",
+            "dependsOn": ["Build"],
+            "module": "order-service-demo",
+            "options": ["-ea", "-Didea.test.cyclic.buffer.size=1048576", "-Dfile.encoding=UTF-8", "-Dsun.stdout.encoding=UTF-8", "-Dsun.stderr.encoding=UTF-8", "-classpath", "$USER_HOME$/.m2/repository/org/junit/platform/junit-platform-launcher/1.11.3/junit-platform-launcher-1.11.3.jar:$USER_HOME$/.m2/repository/org/junit/vintage/junit-vintage-engine/5.11.3/junit-vintage-engine-5.11.3.jar:$USER_HOME$/Library/Caches/JetBrains/Fleet/intellij-plugin-2/fleet-backend-243.22264.tar.zst_21ad33b6bd48b7e53ad290e0ad7fa72f/FleetBackend 2024.3 EAP.app/Contents/lib/idea_rt.jar:$USER_HOME$/Library/Caches/JetBrains/Fleet/intellij-plugin-2/fleet-backend-243.22264.tar.zst_21ad33b6bd48b7e53ad290e0ad7fa72f/FleetBackend 2024.3 EAP.app/Contents/plugins/junit/lib/junit5-rt.jar:$USER_HOME$/Library/Caches/JetBrains/Fleet/intellij-plugin-2/fleet-backend-243.22264.tar.zst_21ad33b6bd48b7e53ad290e0ad7fa72f/FleetBackend 2024.3 EAP.app/Contents/plugins/junit/lib/junit-rt.jar", "com.intellij.rt.junit.JUnitStarter", "-ideVersion5", "-junit5", "com.pactmock.order_service_demo.PactProviderVerificationTest"]
+        }
+    ]
+}

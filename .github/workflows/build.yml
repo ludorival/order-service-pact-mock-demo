@@ -25,6 +25,9 @@ jobs:
         cache: maven
     
     - name: Build with Maven
+      env:
+        PACTBROKER_URL: ${{ secrets.PACTBROKER_URL }}
+        PACTBROKER_TOKEN: ${{ secrets.PACTBROKER_TOKEN }}
       run: ./mvnw clean verify
     
     - name: Test Report

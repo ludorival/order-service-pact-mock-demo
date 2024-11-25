@@ -5,6 +5,10 @@ spring:
   application:
     name: pact-mock-order-service-demo
 
+pactbroker:
+  url: ${PACT_BROKER_URL:https://pact-mock.pactflow.io}
+  token: ${PACT_BROKER_TOKEN}
+
 inventory:
   service:
     url: http://localhost:8081
