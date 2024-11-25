@@ -12,8 +12,7 @@ import kotlin.test.assertEquals
 class OrderControllerTest {
 
     private val restTemplate = mockk<RestTemplate>()
-    private val serviceUrl = "http://localhost:8081"
-    private val inventoryServiceClient = InventoryServiceClient(restTemplate, serviceUrl)
+    private val inventoryServiceClient = InventoryServiceClient(restTemplate, SERVICE_URL)
 
 
     private val paymentService = mockk<PaymentService>()
@@ -27,9 +26,7 @@ class OrderControllerTest {
             Item(2L, "Item 2", "Description",20)
         )
 
-        every {
-            restTemplate.getForEntity("$serviceUrl/items", Array<Item>::class.java)
-        } returns ResponseEntity.ok(mockItems.toTypedArray())
+        restTemplate.givenItemsAreAvailable(mockItems)
 
         val response = orderController.getItems()
 
@@ -41,9 +38,7 @@ class OrderControllerTest {
     fun `purchaseItem completes successfully when booking and payment succeed`() {
         val request = PurchaseRequest(1L, 2, 20.0)
 
-        every {
-            inventoryServiceClient.bookItem(1L, 2)
-        } returns BookingResponse(true, "Booked successfully")
+        restTemplate.givenItemBookingSucceeds(request.itemId, request.quantity)
 
         every {
             paymentService.processPayment(1L, 2, 20.0)
@@ -60,9 +55,7 @@ class OrderControllerTest {
     fun `purchaseItem fails when booking fails`() {
         val request = PurchaseRequest(1L, 2, 20.0)
         
-        every { 
-            inventoryServiceClient.bookItem(1L, 2)
-        } returns BookingResponse(false, "Out of stock")
+        restTemplate.givenItemBookingFails(request.itemId, request.quantity)
 
         val response = orderController.purchaseItem(request)
 
@@ -75,17 +68,13 @@ class OrderControllerTest {
     fun `purchaseItem fails and releases inventory when payment fails`() {
         val request = PurchaseRequest(1L, 2, 20.0)
 
-        every {
-            inventoryServiceClient.bookItem(1L, 2)
-        } returns BookingResponse(true, "Booked successfully")
+        restTemplate.givenItemBookingSucceeds(1L, 2)
 
         every {
             paymentService.processPayment(1L, 2, 20.0)
         } returns PaymentResult(false, "Insufficient funds")
 
-        every {
-            inventoryServiceClient.releaseItem(1L, 2)
-        } returns ReleaseResponse(true, "Released successfully")
+        restTemplate.givenItemReleaseSucceeds(1L, 2)
 
         val response = orderController.purchaseItem(request)
 
@@ -98,9 +87,7 @@ class OrderControllerTest {
     fun `purchaseItem handles exceptions gracefully`() {
         val request = PurchaseRequest(1L, 2, 20.0)
 
-        every {
-            inventoryServiceClient.bookItem(1L, 2)
-        } throws RuntimeException("Service unavailable")
+        restTemplate.givenItemBookingThrowsException(1L, 2)
 
         val response = orderController.purchaseItem(request)
 
