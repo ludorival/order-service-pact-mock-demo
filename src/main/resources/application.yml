@@ -1,9 +1,9 @@
 server:
-  port: 8080
+  port: 3000
 
 spring:
   application:
-    name: pact-mock-order-service-demo
+    name: order-service
 
 pactbroker:
   url: ${PACT_BROKER_URL:https://pact-mock.pactflow.io}
@@ -11,4 +11,4 @@ pactbroker:
 
 inventory:
   service:
-    url: http://localhost:8081
+    url: http://localhost:4000/v1
