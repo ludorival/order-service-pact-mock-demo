@@ -1,0 +1,29 @@
+name: Test Dispatch Workflow
+
+on:
+  workflow_dispatch: # This allows the workflow to be triggered manually via the API or UI
+    inputs:          # Optional inputs to customize the workflow run
+      name:
+        description: "Your name"
+        required: false
+        default: "GitHub User"
+      environment:
+        description: "Environment to run the workflow"
+        required: true
+        default: "development"
+
+jobs:
+  test_dispatch:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - name: Print Inputs
+        run: |
+          echo "Hello, ${{ inputs.name }}!"
+          echo "Environment: ${{ inputs.environment }}"
+
+      - name: Perform a Test
+        run: echo "Workflow dispatch test successful!"
