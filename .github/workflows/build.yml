@@ -37,9 +37,9 @@ jobs:
         PACT_BROKER_TOKEN: ${{ secrets.PACT_BROKER_TOKEN }}
       run: |
         docker run --rm \
-          -e PACT_BROKER_URL=${{ secrets.PACT_BROKER_URL }} \
-          -e PACT_BROKER_TOKEN=${{ secrets.PACT_BROKER_TOKEN }} \
           pactfoundation/pact-cli:latest broker can-i-deploy \
+          --broker-base-url=${PACT_BROKER_URL} \
+          --broker-token=${PACT_BROKER_TOKEN} \
           --pacticipant order-service \
           --version ${{ github.sha }}
 
