@@ -2,8 +2,11 @@ name: Pact Contract Verification
 
 on:
   workflow_dispatch:
-  repository_dispatch:
-    types: [pact-changed]
+    inputs:
+        pact_url:
+            description: "The url of the pact broker"
+            required: false
+            default: ""
 
 jobs:
   verify:
