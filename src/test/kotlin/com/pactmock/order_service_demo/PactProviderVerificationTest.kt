@@ -7,8 +7,6 @@ import au.com.dius.pact.provider.junitsupport.Provider
 import au.com.dius.pact.provider.junitsupport.State
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker
 import au.com.dius.pact.provider.junitsupport.loader.PactBrokerAuth
-import au.com.dius.pact.provider.junitsupport.loader.PactFolder
-
 import au.com.dius.pact.provider.spring.junit5.PactVerificationSpringProvider
 import com.pactmock.order_service_demo.models.Item
 import org.junit.jupiter.api.BeforeEach
@@ -30,7 +28,6 @@ import java.net.URI
     authentication = PactBrokerAuth(token = "\${pactbroker.auth.token}"),
 )
 @Import(TestConfig::class)
-@ExtendWith(InventoryServicePact::class)
 class PactProviderVerificationTest {
 
     @Autowired
