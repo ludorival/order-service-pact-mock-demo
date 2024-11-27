@@ -89,13 +89,13 @@ class OrderControllerTest {
     fun `purchaseItem handles exceptions gracefully`() {
         val request = PurchaseRequest(1L, 2, 20.0)
 
-        restTemplate.givenItemBookingThrowsException(1L, 2, "Service Unavailable")
+        restTemplate.givenItemBookingThrowsException(1L, 2, "Item not found")
 
         val response = orderController.purchaseItem(request)
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.statusCode)
         assertEquals(false, response.body?.success)
-        assertEquals("Error processing purchase: 503 Service Unavailable", response.body?.message)
+        assertEquals("Error processing purchase: 500 Item not found", response.body?.message)
     }
 
 } 

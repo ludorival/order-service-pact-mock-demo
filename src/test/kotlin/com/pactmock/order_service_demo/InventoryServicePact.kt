@@ -95,7 +95,7 @@ fun RestTemplate.givenItemBookingThrowsException(itemId: Long, quantity: Int, me
             providerStates = listOf("There is an error")
         }
         throw HttpClientErrorException(
-            HttpStatus.SERVICE_UNAVAILABLE,
+            HttpStatus.INTERNAL_SERVER_ERROR,
             message
         )
     }
