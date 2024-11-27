@@ -77,7 +77,7 @@ fun RestTemplate.givenItemBookingFails(itemId: Long, quantity: Int, message: Str
         ResponseEntity.ok(BookingResponse(false, message))}
 }
 
-fun RestTemplate.givenItemBookingThrowsException(itemId: Long, quantity: Int, message: String = "Service unavailable") {
+fun RestTemplate.givenItemBookingThrowsException(itemId: Long, quantity: Int, message: String = "Item not found") {
     every {
         postForEntity(
             "$SERVICE_URL/book",
