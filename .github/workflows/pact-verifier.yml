@@ -3,10 +3,23 @@ name: Pact Contract Verification
 on:
   workflow_dispatch:
     inputs:
-        pact_url:
-            description: "The url of the pact broker"
-            required: false
-            default: ""
+      pact_url:
+        description: 'URL of the pact to verify'
+        required: true
+      consumer_version_tags:
+        description: 'Consumer version tags'
+        required: false
+        default: ''
+      consumer_version_number:
+        description: 'Consumer version number'
+        required: false
+        default: ''
+      provider_version_tags:
+        description: 'Provider version tags'
+        required: false
+        default: ''
+      event_name:
+        description: 'Name of the event that triggered the webhook'
 
 permissions:
   checks: write
