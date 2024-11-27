@@ -30,6 +30,7 @@ import java.net.URI
     authentication = PactBrokerAuth(token = "\${pactbroker.auth.token}"),
 )
 @Import(TestConfig::class)
+@ExtendWith(InventoryServicePact::class)
 class PactProviderVerificationTest {
 
     @Autowired

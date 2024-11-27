@@ -79,7 +79,7 @@
 		<dependency>
 			<groupId>io.github.ludorival</groupId>
 			<artifactId>pact-jvm-mockk-spring</artifactId>
-			<version>0.0.2</version>
+			<version>0.1.0-1-gb3256f6</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
