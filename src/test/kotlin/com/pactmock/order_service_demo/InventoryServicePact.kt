@@ -20,12 +20,12 @@ const val SERVICE_URL = "http://localhost:4000/v1"
 
 object InventoryServicePact : AfterAllCallback {
     init {
-            pactOptions {
-                consumer = "order-service"
-                determineProviderFromInteraction = { "inventory-service" }
-                // allow to intercept Spring RestTemplate mocks
-                addAdapter(SpringRestTemplateMockkAdapter())
-            }
+        pactOptions {
+            consumer = "order-service"
+            determineProviderFromInteraction = { "inventory-service" }
+            // allow to intercept Spring RestTemplate mocks
+            addAdapter(SpringRestTemplateMockkAdapter())
+        }
     }
 
     override fun afterAll(context: ExtensionContext?) = writePacts()
