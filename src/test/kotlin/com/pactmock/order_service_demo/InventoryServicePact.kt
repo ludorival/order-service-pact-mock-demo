@@ -38,7 +38,7 @@ fun RestTemplate.givenItemsAreAvailable(items: List<Item>) {
     } willRespondWith {
         options {
             description = "Items are available"
-            providerStates = listOf("Items are available")
+            providerStates = listOf("There are 2 items")
         }
         ResponseEntity.ok(items.toTypedArray())}
 }
@@ -55,7 +55,7 @@ fun RestTemplate.givenItemBookingSucceeds(itemId: Long, quantity: Int) {
     } willRespondWith{
         options {
             description = "item is successfully booked"
-            providerStates = listOf("Items are available")
+            providerStates = listOf("There are 2 items")
         }
         ResponseEntity.ok(BookingResponse(true, "Booked successfully"))}
 }
@@ -88,7 +88,7 @@ fun RestTemplate.givenItemBookingThrowsException(itemId: Long, quantity: Int, me
         )
     } willRespondWith {
         options {
-            providerStates = listOf("The request should return a 400 Bad request")
+            providerStates = listOf("There is an error")
         }
         throw HttpClientErrorException(
             HttpStatus.BAD_REQUEST,
@@ -109,7 +109,7 @@ fun RestTemplate.givenItemReleaseSucceeds(itemId: Long, quantity: Int) {
     } willRespondWith {
         options {
             description = "item is successfully released"
-            providerStates = listOf("Items are available")
+            providerStates = listOf("There are 2 items")
         }
         ResponseEntity.ok(ReleaseResponse(true, "Released successfully")) }
 }
