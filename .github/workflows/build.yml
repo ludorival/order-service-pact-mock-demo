@@ -41,7 +41,7 @@ jobs:
           --broker-base-url=${PACT_BROKER_URL} \
           --broker-token=${PACT_BROKER_TOKEN} \
           --pacticipant order-service \
-          --version ${{ github.sha }}
+          --latest
 
     - name: Test Report
       uses: dorny/test-reporter@v1
