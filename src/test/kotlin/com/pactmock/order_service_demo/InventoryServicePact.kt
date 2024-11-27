@@ -1,5 +1,7 @@
 package com.pactmock.order_service_demo
 
+import com.fasterxml.jackson.databind.ObjectMapper
+import com.google.api.Http
 import com.pactmock.order_service_demo.models.Item
 import io.mockk.every
 import org.springframework.http.ResponseEntity
@@ -15,6 +17,8 @@ import org.springframework.http.HttpHeaders
 import org.springframework.http.HttpStatus
 import org.springframework.http.HttpStatusCode
 import org.springframework.web.client.HttpClientErrorException
+import org.springframework.web.client.HttpServerErrorException
+import javax.naming.ServiceUnavailableException
 
 const val SERVICE_URL = "http://localhost:4000/v1"
 
@@ -91,7 +95,7 @@ fun RestTemplate.givenItemBookingThrowsException(itemId: Long, quantity: Int, me
             providerStates = listOf("There is an error")
         }
         throw HttpClientErrorException(
-            HttpStatus.NOT_FOUND,
+            HttpStatus.SERVICE_UNAVAILABLE,
             message
         )
     }
