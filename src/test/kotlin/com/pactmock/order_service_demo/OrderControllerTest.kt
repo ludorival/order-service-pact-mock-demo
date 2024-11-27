@@ -4,11 +4,13 @@ import com.pactmock.order_service_demo.models.Item
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.http.ResponseEntity
 import org.springframework.http.HttpStatus
 import org.springframework.web.client.RestTemplate
 import kotlin.test.assertEquals
 
+@ExtendWith(InventoryServicePact::class)
 class OrderControllerTest {
 
     private val restTemplate = mockk<RestTemplate>()

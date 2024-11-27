@@ -76,6 +76,12 @@
 			<version>4.6.2</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>io.github.ludorival</groupId>
+			<artifactId>pact-jvm-mockk-spring</artifactId>
+			<version>0.0.2</version>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
 	<build>
