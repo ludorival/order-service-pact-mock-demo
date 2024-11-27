@@ -57,7 +57,7 @@ fun RestTemplate.givenItemBookingSucceeds(itemId: Long, quantity: Int) {
             description = "item is successfully booked"
             providerStates = listOf("There are 2 items")
         }
-        ResponseEntity.ok(BookingResponse(true, "Booked successfully"))}
+        ResponseEntity.ok(BookingResponse(true, "Successfully booked $quantity items"))}
 }
 
 fun RestTemplate.givenItemBookingFails(itemId: Long, quantity: Int, message: String = "Out of stock") {
@@ -111,5 +111,5 @@ fun RestTemplate.givenItemReleaseSucceeds(itemId: Long, quantity: Int) {
             description = "item is successfully released"
             providerStates = listOf("There are 2 items")
         }
-        ResponseEntity.ok(ReleaseResponse(true, "Released successfully")) }
+        ResponseEntity.ok(ReleaseResponse(true, "Successfully released $quantity items")) }
 }
