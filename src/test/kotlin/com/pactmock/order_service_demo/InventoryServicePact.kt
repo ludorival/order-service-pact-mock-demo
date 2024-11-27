@@ -25,7 +25,6 @@ object InventoryServicePact : AfterAllCallback {
                 determineProviderFromInteraction = { "inventory-service" }
                 // allow to intercept Spring RestTemplate mocks
                 addAdapter(SpringRestTemplateMockkAdapter())
-                isDeterministic = true
             }
     }
 
