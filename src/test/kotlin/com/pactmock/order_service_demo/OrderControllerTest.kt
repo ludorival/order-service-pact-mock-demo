@@ -4,11 +4,13 @@ import com.pactmock.order_service_demo.models.Item
 import io.mockk.every
 import io.mockk.mockk
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.extension.ExtendWith
 import org.springframework.http.ResponseEntity
 import org.springframework.http.HttpStatus
 import org.springframework.web.client.RestTemplate
 import kotlin.test.assertEquals
 
+@ExtendWith(InventoryServicePact::class)
 class OrderControllerTest {
 
     private val restTemplate = mockk<RestTemplate>()
@@ -87,13 +89,13 @@ class OrderControllerTest {
     fun `purchaseItem handles exceptions gracefully`() {
         val request = PurchaseRequest(1L, 2, 20.0)
 
-        restTemplate.givenItemBookingThrowsException(1L, 2)
+        restTemplate.givenItemBookingThrowsException(1L, 2, "Item not found")
 
         val response = orderController.purchaseItem(request)
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.statusCode)
         assertEquals(false, response.body?.success)
-        assertEquals("Error processing purchase: Service unavailable", response.body?.message)
+        assertEquals("Error processing purchase: 404 Not Found", response.body?.message)
     }
 
 } 
