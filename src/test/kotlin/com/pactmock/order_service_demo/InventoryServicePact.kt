@@ -94,8 +94,7 @@ fun RestTemplate.givenItemBookingThrowsException(itemId: Long, quantity: Int, me
         options {
             providerStates = listOf("There is an error")
         }
-        ResponseEntity.status(HttpStatus.NOT_FOUND).body(BookingResponse(false, message))
-
+        anError(ResponseEntity.status(HttpStatus.NOT_FOUND).body(BookingResponse(false, message)))
     }
 }
 

@@ -25,7 +25,6 @@ class InventoryServiceClient(
             request,
             BookingResponse::class.java
         )
-        if (response.statusCode.is4xxClientError) throw RuntimeException(response.body?.message)
         return response.body ?: throw RuntimeException("Error: empty response")
     }
 

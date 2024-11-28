@@ -95,7 +95,7 @@ class OrderControllerTest {
 
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.statusCode)
         assertEquals(false, response.body?.success)
-        assertEquals("Error processing purchase: Item not found", response.body?.message)
+        assertEquals("Error processing purchase: 404 Not Found", response.body?.message)
     }
 
 } 
