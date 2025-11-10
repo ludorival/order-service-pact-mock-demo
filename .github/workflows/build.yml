@@ -31,20 +31,6 @@ jobs:
         GIT_COMMIT: ${{ github.sha }}
       run: ./mvnw clean verify
 
-    - name: Publish Pacts
-      env:
-        PACT_BROKER_URL: ${{ secrets.PACT_BROKER_URL }}
-        PACT_BROKER_TOKEN: ${{ secrets.PACT_BROKER_TOKEN }}
-      run: |
-        docker run --rm \
-          -v ${PWD}/src/test/resources/pacts:/pacts \
-          pactfoundation/pact-cli:latest \
-          publish /pacts \
-          --broker-base-url=${PACT_BROKER_URL} \
-          --broker-token=${PACT_BROKER_TOKEN} \
-          --consumer-app-version=${GITHUB_SHA} \
-          --branch=${GITHUB_REF_NAME}
-
     - name: Can I Deploy
       env:
         PACT_BROKER_URL: ${{ secrets.PACT_BROKER_URL }}
