@@ -7,16 +7,6 @@ spring:
   application:
     name: order-service
 
-pactbroker:
-  url: ${PACT_BROKER_URL:https://pact-mock.pactflow.io}
-  auth:
-    token: ${PACT_BROKER_TOKEN:2NxGdiTyTj6MJ8N4AtEDhg}
-pact:
-  provider:
-    branch: ${GIT_BRANCH:main}
-    version: ${GIT_COMMIT}
-  verifier:
-    publishResults: ${CI:false}
 inventory:
   service:
     url: http://localhost:4000/v1
