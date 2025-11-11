@@ -1,20 +1,20 @@
 package com.pactmock.order_service_demo
 
 import com.pactmock.order_service_demo.models.Item
-import io.mockk.every
+import io.github.ludorival.pactjvm.mock.mockk.uponReceiving
 import org.springframework.http.ResponseEntity
 import org.springframework.web.client.RestTemplate
 
 const val SERVICE_URL = "http://localhost:4000/inventory-service/v1"
 
 fun RestTemplate.givenItemsAreAvailable(items: List<Item>) {
-    every {
+    uponReceiving {
         getForEntity("$SERVICE_URL/items", Array<Item>::class.java)
     } returns ResponseEntity.ok(items.toTypedArray())
 }
 
 fun RestTemplate.givenItemBookingSucceeds(itemId: Long, quantity: Int) {
-    every {
+    uponReceiving {
         postForEntity(
             "$SERVICE_URL/book",
             match<BookingRequest> { 
@@ -26,7 +26,7 @@ fun RestTemplate.givenItemBookingSucceeds(itemId: Long, quantity: Int) {
 }
 
 fun RestTemplate.givenItemBookingFails(itemId: Long, quantity: Int, message: String = "Out of stock") {
-    every {
+    uponReceiving {
         postForEntity(
             "$SERVICE_URL/book",
             match<BookingRequest> { 
@@ -38,7 +38,7 @@ fun RestTemplate.givenItemBookingFails(itemId: Long, quantity: Int, message: Str
 }
 
 fun RestTemplate.givenItemBookingThrowsException(itemId: Long, quantity: Int, message: String = "Service unavailable") {
-    every {
+    uponReceiving {
         postForEntity(
             "$SERVICE_URL/book",
             match<BookingRequest> { 
@@ -50,7 +50,7 @@ fun RestTemplate.givenItemBookingThrowsException(itemId: Long, quantity: Int, me
 }
 
 fun RestTemplate.givenItemReleaseSucceeds(itemId: Long, quantity: Int) {
-    every {
+    uponReceiving {
         postForEntity(
             "$SERVICE_URL/release",
             match<ReleaseRequest> { 
