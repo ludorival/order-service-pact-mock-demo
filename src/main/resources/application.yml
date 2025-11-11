@@ -1,5 +1,7 @@
 server:
   port: 3000
+  servlet:
+    context-path: /order-service
 
 spring:
   application:
