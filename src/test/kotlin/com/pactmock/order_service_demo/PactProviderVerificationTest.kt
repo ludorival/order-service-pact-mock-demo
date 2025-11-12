@@ -24,7 +24,6 @@ import java.net.URI
 @PactBroker(
     url = "\${pactbroker.url:}",
     authentication = PactBrokerAuth(token = "\${pactbroker.auth.token:}"),
-    enablePending = true
 )
 @Import(PactVerificationTestConfig::class)
 class PactProviderVerificationTest {
