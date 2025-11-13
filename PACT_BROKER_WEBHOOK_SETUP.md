@@ -58,7 +58,7 @@ Content-Type: application/json
 ### 3. Example Webhook Configuration (Pact Broker API)
 
 ```bash
-curl -X POST "${PACT_BROKER_BASE_URL}/pacts/provider/order-service/webhooks" \
+curl -X POST "${PACT_BROKER_URL}/pacts/provider/order-service/webhooks" \
   -H "Authorization: Bearer ${PACT_BROKER_TOKEN}" \
   -H "Content-Type: application/json" \
   -d '{
@@ -157,7 +157,7 @@ Example payload structure:
 
 ### Workflow runs but tests fail
 
-1. Verify `PACT_BROKER_BASE_URL` and `PACT_BROKER_TOKEN` secrets are set
+1. Verify `PACT_BROKER_URL` and `PACT_BROKER_TOKEN` secrets are set
 2. Check Pact Broker is accessible from GitHub Actions
 3. Verify provider name matches in Pact Broker and test configuration
 

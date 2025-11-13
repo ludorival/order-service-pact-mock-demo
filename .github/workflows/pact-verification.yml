@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     
     env:
-      PACT_BROKER_BASE_URL: ${{ secrets.PACT_BROKER_BASE_URL }}
+      PACT_BROKER_URL: ${{ secrets.PACT_BROKER_URL }}
       PACT_BROKER_TOKEN: ${{ secrets.PACT_BROKER_TOKEN }}
 
     steps:
@@ -32,7 +32,7 @@ jobs:
         echo "Event type: ${{ github.event.action }}"
     
     - name: Verify Pact
-      run: ./mvnw clean test -Dtest=PactProviderVerificationTest -Dpactbroker.url="${{ secrets.PACT_BROKER_BASE_URL }}" -Dpactbroker.auth.token="${{ secrets.PACT_BROKER_TOKEN }}"
+      run: ./mvnw clean test -Dtest=PactProviderVerificationTest -Dpactbroker.url="${{ secrets.PACT_BROKER_URL }}" -Dpactbroker.auth.token="${{ secrets.PACT_BROKER_TOKEN }}"
     
     - name: Test Report
       uses: dorny/test-reporter@v1
