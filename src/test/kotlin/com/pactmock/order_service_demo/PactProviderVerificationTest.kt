@@ -43,6 +43,8 @@ class PactProviderVerificationTest {
         
         // Configure publishing results (only publish in CI/CD, not locally)
         System.setProperty("pact.verifier.publishResults", System.getenv("CI") ?: "false")
+        System.setProperty("pact.provider.version", System.getenv("GITHUB_SHA") ?: "unknown")
+        System.setProperty("pactbroker.providerBranch", System.getenv("GITHUB_BRANCH") ?: "unknown")
     }
 
     @TestTemplate
