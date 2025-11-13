@@ -111,7 +111,7 @@
 				<version>4.6.0</version>
 				<configuration>
 					<pactDirectory>${project.basedir}/src/test/resources/pacts</pactDirectory>
-					<pactBrokerUrl>${env.PACT_BROKER_BASE_URL}</pactBrokerUrl>
+					<pactBrokerUrl>${env.PACT_BROKER_URL}</pactBrokerUrl>
 					<pactBrokerToken>${env.PACT_BROKER_TOKEN}</pactBrokerToken>
 					<tags>
 						<tag>${env.GIT_BRANCH}</tag>
