@@ -14,6 +14,11 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    env:
+      PACT_BROKER_BASE_URL: ${{ secrets.PACT_BROKER_URL }}
+      PACT_BROKER_TOKEN: ${{ secrets.PACT_BROKER_TOKEN }}
+      GITHUB_SHA: ${{ github.sha }}
+      GITHUB_BRANCH: ${{ github.ref_name }}
     steps:
     - uses: actions/checkout@v4
       with:
@@ -27,7 +32,7 @@ jobs:
         cache: maven
     
     - name: Build with Maven
-      run: ./mvnw clean verify
+      run: ./mvnw clean verify -Dpactbroker.url="${{ secrets.PACT_BROKER_URL }}" -Dpactbroker.auth.token="${{ secrets.PACT_BROKER_TOKEN }}"
       env:
         PACT_BROKER_URL: ${{ secrets.PACT_BROKER_URL }}
         PACT_BROKER_TOKEN: ${{ secrets.PACT_BROKER_TOKEN }}
