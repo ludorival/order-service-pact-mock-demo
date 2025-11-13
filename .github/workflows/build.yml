@@ -44,8 +44,15 @@ jobs:
         fail-on-error: true
     
     - name: Publish Pact to Broker
-      if: success() && github.event_name == 'push' && github.ref == 'refs/heads/main'
       run: ./mvnw pact:publish
+      env:
+        PACT_BROKER_URL: ${{ secrets.PACT_BROKER_URL }}
+        PACT_BROKER_TOKEN: ${{ secrets.PACT_BROKER_TOKEN }}
+        GIT_COMMIT: ${{ github.sha }}
+        GIT_BRANCH: ${{ github.ref_name }}
+    
+    - name: Can I Deploy
+      run: ./mvnw pact:can-i-deploy -Dpacticipant=order-service -Dversion=${{ github.sha }} -Dto=${GIT_BRANCH}
       env:
         PACT_BROKER_URL: ${{ secrets.PACT_BROKER_URL }}
         PACT_BROKER_TOKEN: ${{ secrets.PACT_BROKER_TOKEN }}
