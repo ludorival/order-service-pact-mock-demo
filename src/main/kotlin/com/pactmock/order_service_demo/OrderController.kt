@@ -66,7 +66,7 @@ class OrderController(
 data class PurchaseRequest(
     val itemId: Long,
     val quantity: Int,
-    val amount: Double = 0.0
+    val amount: Double
 )
 
 data class PurchaseResponse(
