@@ -125,10 +125,8 @@
 					<pactDirectory>${project.basedir}/src/test/resources/pacts</pactDirectory>
 					<pactBrokerUrl>${env.PACT_BROKER_URL}</pactBrokerUrl>
 					<pactBrokerToken>${env.PACT_BROKER_TOKEN}</pactBrokerToken>
-					<tags>
-						<tag>${env.GIT_BRANCH}</tag>
-					</tags>
-					<projectVersion>${env.GIT_COMMIT}</projectVersion>
+					<projectVersion>${env.GITHUB_SHA}</projectVersion>
+					<branchName>${env.GITHUB_BRANCH}</branchName>
 				</configuration>
 			</plugin>
 		</plugins>
