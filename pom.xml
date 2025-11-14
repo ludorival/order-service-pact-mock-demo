@@ -65,6 +65,18 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>io.github.ludorival</groupId>
+			<artifactId>pact-jvm-mock-mockk</artifactId>
+			<version>1.4.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>io.github.ludorival</groupId>
+			<artifactId>pact-jvm-mock-spring</artifactId>
+			<version>1.4.0</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>au.com.dius.pact.provider</groupId>
 			<artifactId>junit5</artifactId>
 			<version>4.6.17</version>
@@ -104,6 +116,18 @@
 						<version>${kotlin.version}</version>
 					</dependency>
 				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>au.com.dius.pact.provider</groupId>
+				<artifactId>maven</artifactId>
+				<version>4.6.0</version>
+				<configuration>
+					<pactDirectory>${project.basedir}/src/test/resources/pacts</pactDirectory>
+					<pactBrokerUrl>${env.PACT_BROKER_URL}</pactBrokerUrl>
+					<pactBrokerToken>${env.PACT_BROKER_TOKEN}</pactBrokerToken>
+					<projectVersion>${env.GITHUB_SHA}</projectVersion>
+					<branchName>${env.GITHUB_BRANCH}</branchName>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

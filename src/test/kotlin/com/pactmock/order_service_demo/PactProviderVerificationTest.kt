@@ -3,6 +3,7 @@ package com.pactmock.order_service_demo
 import au.com.dius.pact.provider.junit5.HttpTestTarget
 import au.com.dius.pact.provider.junit5.PactVerificationContext
 import au.com.dius.pact.provider.junit5.PactVerificationInvocationContextProvider
+import au.com.dius.pact.provider.junitsupport.IgnoreNoPactsToVerify
 import au.com.dius.pact.provider.junitsupport.Provider
 import au.com.dius.pact.provider.junitsupport.State
 import au.com.dius.pact.provider.junitsupport.loader.PactBroker
@@ -26,6 +27,7 @@ import java.net.URI
     authentication = PactBrokerAuth(token = "\${pactbroker.auth.token:}"),
 )
 @Import(PactVerificationTestConfig::class)
+@IgnoreNoPactsToVerify
 class PactProviderVerificationTest {
 
     @Autowired
@@ -38,7 +40,8 @@ class PactProviderVerificationTest {
     private var port: Int = 0
 
     @BeforeEach
-    fun setUp(context: PactVerificationContext) {
+    fun setUp(context: PactVerificationContext?) {
+        if (context == null) return
         context.target = HttpTestTarget.fromUrl(URI.create("http://localhost:$port").toURL())
         
         // Configure publishing results (only publish in CI/CD, not locally)
@@ -49,8 +52,8 @@ class PactProviderVerificationTest {
 
     @TestTemplate
     @ExtendWith(PactVerificationInvocationContextProvider::class)
-    fun pactVerificationTestTemplate(context: PactVerificationContext) {
-        context.verifyInteraction()
+    fun pactVerificationTestTemplate(context: PactVerificationContext?) {
+        context?.verifyInteraction()
     }
 
     // Provider state handlers
