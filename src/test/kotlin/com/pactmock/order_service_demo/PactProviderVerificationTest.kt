@@ -52,8 +52,8 @@ class PactProviderVerificationTest {
 
     @TestTemplate
     @ExtendWith(PactVerificationInvocationContextProvider::class)
-    fun pactVerificationTestTemplate(context: PactVerificationContext) {
-        context.verifyInteraction()
+    fun pactVerificationTestTemplate(context: PactVerificationContext?) {
+        context?.verifyInteraction()
     }
 
     // Provider state handlers
