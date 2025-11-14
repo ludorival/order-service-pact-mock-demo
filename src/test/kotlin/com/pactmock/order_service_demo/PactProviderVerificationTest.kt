@@ -40,7 +40,8 @@ class PactProviderVerificationTest {
     private var port: Int = 0
 
     @BeforeEach
-    fun setUp(context: PactVerificationContext) {
+    fun setUp(context: PactVerificationContext?) {
+        if (context == null) return
         context.target = HttpTestTarget.fromUrl(URI.create("http://localhost:$port").toURL())
         
         // Configure publishing results (only publish in CI/CD, not locally)
