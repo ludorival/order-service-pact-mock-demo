@@ -36,8 +36,8 @@ jobs:
       env:
         PACT_BROKER_URL: ${{ secrets.PACT_BROKER_URL }}
         PACT_BROKER_TOKEN: ${{ secrets.PACT_BROKER_TOKEN }}
-        GIT_COMMIT: ${{ github.sha }}
-        GIT_BRANCH: ${{ github.ref_name }}
+        GITHUB_SHA: ${{ github.sha }}
+        GITHUB_BRANCH: ${{ github.ref_name }}
     
     - name: Test Report
       uses: dorny/test-reporter@v1
@@ -53,13 +53,11 @@ jobs:
       env:
         PACT_BROKER_URL: ${{ secrets.PACT_BROKER_URL }}
         PACT_BROKER_TOKEN: ${{ secrets.PACT_BROKER_TOKEN }}
-        GIT_COMMIT: ${{ github.sha }}
-        GIT_BRANCH: ${{ github.ref_name }}
+        GITHUB_SHA: ${{ github.sha }}
+        GITHUB_BRANCH: ${{ github.ref_name }}
     
     - name: Can I Deploy
-      run: ./mvnw pact:can-i-deploy -Dpacticipant=order-service -DpacticipantVersion=${{ github.sha }} -Dto=${GIT_BRANCH}
+      run: ./mvnw pact:can-i-deploy -Dpacticipant=order-service -DpacticipantVersion=${{ github.sha }} -Dto=${{ github.ref_name }}
       env:
         PACT_BROKER_URL: ${{ secrets.PACT_BROKER_URL }}
         PACT_BROKER_TOKEN: ${{ secrets.PACT_BROKER_TOKEN }}
-        GIT_COMMIT: ${{ github.sha }}
-        GIT_BRANCH: ${{ github.ref_name }} 
